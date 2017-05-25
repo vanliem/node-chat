@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  	<meta name="description" content="Chat App using Socket.io in QuocTuan.Info" />
+  	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <meta name="author" content="Quốc Tuấn" />
+  	<title>QuocTuan.Info</title>
+  	<link type="text/css" rel="stylesheet" href="/stylesheets/bootstrap.css"  />
+  	<link type="text/css" rel="stylesheet" href="/stylesheets/mystyle.css" />
+	<script type="text/javascript" src="/javascripts/socket.io.js" ></script>
+</head>
+<body>
+<div class="modal fade" id="myModal" role="dialog"> 
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Thông Tin Người Dùng</h4>
+			</div>
+			<div class="modal-body">
+				<div id="error_msg"></div>
+				<div class="input-group">
+				  	<span class="input-group-addon" id="sizing-addon2">Họ và tên </span>
+				  	<input type="text" class="form-control" id="txtUser" placeholder="Vui lòng nhập họ và tên" aria-describedby="sizing-addon2">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="btnAdd" class="btn btn-primary">Thêm</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+ 	<div class="row " style="padding-top:40px;">
+        <div class="col-md-3">
+           	<div class="panel panel-primary">
+              	<div class="panel-heading">
+                 	Thành viên đang Online
+              	</div>
+              	<div class="panel-body">
+                 	<ul class="media-list" id="listUser">
+
+                 	</ul>
+              	</div>
+           	</div>
+        </div>
+        <div class="col-md-9">
+           	<div class="panel panel-info">
+              	<div class="panel-heading">
+                 	Nội dung Chat
+              	</div>
+              	<div class="panel-body">
+                 	<ul class="media-list" id="listMessage">
+                    	<li class="media">
+                           	<div class="media-body">
+                              	<div class="media">
+                                 	<a class="pull-left" href="#">
+                                 		<img class="media-object img-circle" src="images/user.png" />
+                                 	</a>
+                                 	<div class="media-body" >
+	                                    Donec sit amet ligula enim. Duis vel condimentum massa.
+	                                    Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+	                                    Duis vel condimentum massa.
+	                                    Donec sit amet ligula enim. Duis vel condimentum massa.
+	                                    <br />
+                                    	<small class="text-muted">Conan Vũ</small>
+                                    	<hr />
+                                 	</div>
+                              	</div>
+                           	</div>
+                    	</li>
+                 	</ul>
+              	</div>
+              	<div class="panel-footer">
+                 	<div class="input-group">
+                    	<input type="text" class="form-control" id="txtMessage" placeholder="Vui lòng nhập nội dung tin nhắn" />
+                    	<span class="input-group-btn">
+                    		<button class="btn btn-info" id="btnSend" type="button">Gửi</button>
+                    	</span>
+                 	</div>
+              	</div>
+           	</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/javascripts/myscript.js" ></script>
+</body>
+</html>
