@@ -18,13 +18,30 @@ $(document).ready(function() {
 });
 var socket = io.connect('http://localhost:3000/');
 
+
 /**
- * Add user
+ * Load list current user online
+*/
+var isLoaded = false;
+socket.on('user_online', function (data) {
+    if (!isLoaded) {
+        data.forEach(function (item, index) {
+            updateUser(item['name']);
+        });    
+    }
+    isLoaded = true;
+});
+
+
+/**
+ * Add a user to list
  * */
+
 $('#btnAdd').click(function () {
 	var user = $('#txtUser').val();
 	socket.emit('join', user);
     updateUser(user);
+    saveUserSession(user);
 });
 
 socket.on('user_list', function (data) {
@@ -52,18 +69,24 @@ function updateUser(user) {
 /**
  * Send message
  **/
+
 $('#btnSend').click(function (e) {
     var message = $('#txtMessage').val();
-    var user = $('#txtUser').val();
+    var user = $('#listUser').attr('data-user-online') 
+                        ? $('#listUser').attr('data-user-online') : 
+                        $('#txtUser').val();
     var data = {user: user, message: message};
 
     socket.emit('message', data);
     updateChat(data);
+
+    insertMessage(message);
 });
 
 socket.on('message_list',function (data) {
     updateChat(data);
 });
+
 function updateChat(data)
 {
     var xhtml = '<li class="media">';
@@ -83,4 +106,44 @@ function updateChat(data)
     xhtml += '</li>';
 
     $('#listMessage').append(xhtml);
+}
+
+function saveUserSession(user)
+{
+    var request = $.ajax({
+      url: "/session-user/" + user,
+      method: "GET",
+      dataType: "JSON"
+    });
+     
+    /*request.done(function(response) {
+      updateUser(response.user);
+    });*/
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+}
+
+function insertMessage(message)
+{
+    /*var request = $.ajax({
+      url: "/insert-message",
+      method: "POST",
+      dataType: "JSON",
+      data: {message: message}
+    });
+     
+    request.done(function(response) {
+      //updateUser(response.user);
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      //alert( "Request failed: " + textStatus );
+    });*/
+
+    $.post( "/insert-message", { message: message}, "json")
+        .done(function (response) {
+            console.log(response);
+        });
 }

@@ -11,6 +11,7 @@
   	<link type="text/css" rel="stylesheet" href="/stylesheets/mystyle.css" />
 </head>
 <body>
+<% if (!user) { %>
 <div class="modal fade" id="myModal" role="dialog"> 
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -30,7 +31,7 @@
 		</div>
 	</div>
 </div>
-
+<% } %>
 
 <div class="container">
  	<div class="row " style="padding-top:40px;">
@@ -40,7 +41,7 @@
                  	Thành viên đang Online
               	</div>
               	<div class="panel-body">
-                 	<ul class="media-list" id="listUser">
+                 	<ul class="media-list" id="listUser" data-user-online="<%= user %>">
 
                  	</ul>
               	</div>

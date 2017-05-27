@@ -30,6 +30,12 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 
 io.on('connection', function (client) {
+    connection.query('SELECT * FROM `user_online`', function (error, results, fields) {
+      if (error) throw error;
+
+      client.emit('user_online', results);
+    });
+
     client.on('join', function (user) {
         connection.query('INSERT INTO `user_online` (name) VALUES("'+ user +'")');
 
@@ -39,6 +45,7 @@ io.on('connection', function (client) {
     client.on('message', function (data) {
         client.broadcast.emit('message_list', data);
     });
+
 });
 
 /**
