@@ -15,13 +15,16 @@ $(document).ready(function() {
 			$(this).parent().parent().parent().parent().modal('hide');
 		}
 	});
-
-
 });
 var socket = io.connect('http://localhost:3000/');
-$('#btnAdd').on('click', function () {
+
+/**
+ * Add user
+ * */
+$('#btnAdd').click(function () {
 	var user = $('#txtUser').val();
 	socket.emit('join', user);
+    updateUser(user);
 });
 
 socket.on('user_list', function (data) {
@@ -29,8 +32,8 @@ socket.on('user_list', function (data) {
 });
 
 function updateUser(user) {
-	var xhtml = '';
-	xhtml += '<li class="media">';
+    var xhtml = '<li class="media">';
+
 	xhtml += '<div class="media-body">';
     xhtml += '<div class="media">';
     xhtml += '<a class="pull-left" href="#">';
@@ -44,4 +47,40 @@ function updateUser(user) {
     xhtml += '</li>';
 
     $('#listUser').append(xhtml);
+}
+
+/**
+ * Send message
+ **/
+$('#btnSend').click(function (e) {
+    var message = $('#txtMessage').val();
+    var user = $('#txtUser').val();
+    var data = {user: user, message: message};
+
+    socket.emit('message', data);
+    updateChat(data);
+});
+
+socket.on('message_list',function (data) {
+    updateChat(data);
+});
+function updateChat(data)
+{
+    var xhtml = '<li class="media">';
+    xhtml += '<div class="media-body">';
+    xhtml += '<div class="media">';
+    xhtml += '<a class="pull-left" href="#">';
+    xhtml += '<img class="media-object img-circle" src="images/user.png" />';
+    xhtml += '</a>';
+    xhtml += '<div class="media-body" >';
+    xhtml += data.message;
+    xhtml += '<br />';
+    xhtml += '<small class="text-muted">' + data.user + '</small>';
+    xhtml += '<hr />';
+    xhtml += '</div>';
+    xhtml += '</div>';
+    xhtml += '</div>';
+    xhtml += '</li>';
+
+    $('#listMessage').append(xhtml);
 }

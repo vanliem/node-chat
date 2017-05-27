@@ -7,6 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('chat:server');
 var http = require('http');
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '1234',
+  database : 'chat'
+});
 
 /**
  * Get port from environment and store in Express.
@@ -24,8 +31,13 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (client) {
     client.on('join', function (user) {
-        client.nickname = user;
+        connection.query('INSERT INTO `user_online` (name) VALUES("'+ user +'")');
+
         client.broadcast.emit('user_list', user);
+    });
+
+    client.on('message', function (data) {
+        client.broadcast.emit('message_list', data);
     });
 });
 
