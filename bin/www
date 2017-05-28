@@ -36,6 +36,12 @@ io.on('connection', function (client) {
       client.emit('user_online', results);
     });
 
+    connection.query('SELECT * FROM `message`', function (error, results, fields) {
+      if (error) throw error;
+
+      client.emit('messages', results);
+    });
+
     client.on('join', function (user) {
         connection.query('INSERT INTO `user_online` (name) VALUES("'+ user +'")');
 
